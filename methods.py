@@ -107,6 +107,7 @@ def gen_vocab_dicts(folder, output_pickle_path, huge_word2vec):
         if word in vocab:
             vec = items[1:]
             word2vec[word] = np.asarray(vec, dtype = 'float32')
+ 
     print(len(word2vec), "matches between unique words and word2vec dictionary")
         
     pickle.dump(word2vec, open(output_pickle_path, 'wb'))
@@ -137,14 +138,12 @@ def get_x_y(train_txt, num_classes, word2vec_len, input_size, word2vec, percent_
         parts = line[:-1].split('\t')
         label = int(parts[0])
         sentence = parts[1]	
-
         #insert x
         words = sentence.split(' ')
         words = words[:x_matrix.shape[1]] #cut off if too long
         for j, word in enumerate(words):
             if word in word2vec:
                 x_matrix[i, j, :] = word2vec[word]
-
         #insert y
         y_matrix[i][label] = 1.0
 
