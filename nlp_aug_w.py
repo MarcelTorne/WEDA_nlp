@@ -2,6 +2,7 @@
 # Jason Wei, Chengyu Huang, Yifang Wei, Fei Xing, Kai Zou
 
 import random
+import numpy as np
 from random import shuffle
 random.seed(1)
 
@@ -62,10 +63,13 @@ def get_only_chars(line):
 #nltk.download('wordnet')
 from nltk.corpus import wordnet 
 
-def synonym_replacement(words, n):
+def synonym_replacement(words, n, tfidf):
     new_words = words.copy()
     random_word_list = list(set([word for word in words if word not in stop_words]))
-    random.shuffle(random_word_list)
+	
+    random_word_list = sorted(random_word_list, key = lambda elem: tfidf[elem])
+	
+    #random.shuffle(random_word_list)
     num_replaced = 0
     for random_word in random_word_list:
         synonyms = get_synonyms(random_word)
@@ -99,7 +103,9 @@ def get_synonyms(word):
 # Randomly delete words from the sentence with probability p
 ########################################################################
 
-def random_deletion(words, p):
+def random_deletion(words, tfidf, p = 1):
+    # Can control p later if we want
+    max_tfidf = max(tfidf.values())
 
     #obviously, if there's only one word, don't delete it
     if len(words) == 1:
@@ -108,8 +114,10 @@ def random_deletion(words, p):
     #randomly delete words with probability p
     new_words = []
     for word in words:
+	threshold = tfidf[word]/max_tfidf
+		
         r = random.uniform(0, 1)
-        if r > p:
+        if r > 1-threshold*p:
             new_words.append(word)
 
     #if you end up deleting all words, just return a random word
@@ -124,18 +132,22 @@ def random_deletion(words, p):
 # Randomly swap two words in the sentence n times
 ########################################################################
 
-def random_swap(words, n):
+def random_swap(words, n, tfidf):
     new_words = words.copy()
     for _ in range(n):
-        new_words = swap_word(new_words)
+        new_words = swap_word(new_words, tfidf)
     return new_words
 
-def swap_word(new_words):
-    random_idx_1 = random.randint(0, len(new_words)-1)
+def swap_word(new_words, tfidf):
+    prob_list = []
+    for word in new_words:
+	prob_list.append(tfidf[word])
+
+    random_idx_1 = np.random.choice(list(range(len(new_words)), p = np.asarray(prob_list)/np.sum(prob_list)) #random.randint(0, len(new_words)-1)
     random_idx_2 = random_idx_1
     counter = 0
     while random_idx_2 == random_idx_1:
-        random_idx_2 = random.randint(0, len(new_words)-1)
+        random_idx_2 = np.random.choice(list(range(len(new_words)), p = np.asarray(prob_list)/np.sum(prob_list))  #random.randint(0, len(new_words)-1)
         counter += 1
         if counter > 3:
             return new_words
@@ -147,17 +159,21 @@ def swap_word(new_words):
 # Randomly add n words into the sentence
 ########################################################################
 
-def random_addition(words, n):
+def random_addition(words, n, tfidf):
+    # tfidf is a dictionary
     new_words = words.copy()
     for _ in range(n):
-        add_word(new_words)
+        add_word(new_words, tfidf)
     return new_words
 
-def add_word(new_words):
+def add_word(new_words, tfidf):
+    probs = np.asarray(tfidf.values())
+    probs /= sum(probs)
+	
     synonyms = []
     counter = 0
     while len(synonyms) < 1:
-        random_word = new_words[random.randint(0, len(new_words)-1)]
+        random_word = np.random.choice(tfidf.keys(), p = probs) #new_words[random.randint(0, len(new_words)-1)]
         synonyms = get_synonyms(random_word)
         counter += 1
         if counter >= 10:
@@ -170,7 +186,7 @@ def add_word(new_words):
 # main data augmentation function
 ########################################################################
 
-def eda_4(sentence, alpha_sr=0.3, alpha_ri=0.2, alpha_rs=0.1, p_rd=0.15, num_aug=9):
+def eda_4(sentence, alpha_sr=0.3, alpha_ri=0.2, alpha_rs=0.1, p_rd=0.15, num_aug=9, tfidf = None):
 
     sentence = get_only_chars(sentence)
     words = sentence.split(' ')
