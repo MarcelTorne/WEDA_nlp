@@ -4,6 +4,8 @@
 import random
 import numpy as np
 from random import shuffle
+from collections import defaultdict
+
 random.seed(1)
 
 #stop words list
@@ -105,7 +107,7 @@ def get_synonyms(word):
 
 def random_deletion(words, tfidf, p = 1):
     # Can control p later if we want
-    max_tfidf = max(tfidf.values())
+    max_tfidf = max(list(tfidf.values()))
 
     #obviously, if there's only one word, don't delete it
     if len(words) == 1:
@@ -114,7 +116,7 @@ def random_deletion(words, tfidf, p = 1):
     #randomly delete words with probability p
     new_words = []
     for word in words:
-	threshold = tfidf[word]/max_tfidf
+        threshold = tfidf[word]/max_tfidf
 		
         r = random.uniform(0, 1)
         if r > 1-threshold*p:
@@ -141,13 +143,13 @@ def random_swap(words, n, tfidf):
 def swap_word(new_words, tfidf):
     prob_list = []
     for word in new_words:
-	prob_list.append(tfidf[word])
+        prob_list.append(tfidf[word])
 
-    random_idx_1 = np.random.choice(list(range(len(new_words)), p = np.asarray(prob_list)/np.sum(prob_list)) #random.randint(0, len(new_words)-1)
+    random_idx_1 = np.random.choice(list(range(len(new_words))), p = np.asarray(prob_list)/np.sum(prob_list)) #random.randint(0, len(new_words)-1)
     random_idx_2 = random_idx_1
     counter = 0
     while random_idx_2 == random_idx_1:
-        random_idx_2 = np.random.choice(list(range(len(new_words)), p = np.asarray(prob_list)/np.sum(prob_list))  #random.randint(0, len(new_words)-1)
+        random_idx_2 = np.random.choice(list(range(len(new_words))), p = np.asarray(prob_list)/np.sum(prob_list))  #random.randint(0, len(new_words)-1)
         counter += 1
         if counter > 3:
             return new_words
@@ -167,13 +169,13 @@ def random_addition(words, n, tfidf):
     return new_words
 
 def add_word(new_words, tfidf):
-    probs = np.asarray(tfidf.values())
+    probs = np.asarray(list(tfidf.values()))
     probs /= sum(probs)
 	
     synonyms = []
     counter = 0
     while len(synonyms) < 1:
-        random_word = np.random.choice(tfidf.keys(), p = probs) #new_words[random.randint(0, len(new_words)-1)]
+        random_word = np.random.choice(list(tfidf.keys()), p = probs) #new_words[random.randint(0, len(new_words)-1)]
         synonyms = get_synonyms(random_word)
         counter += 1
         if counter >= 10:
@@ -186,7 +188,7 @@ def add_word(new_words, tfidf):
 # main data augmentation function
 ########################################################################
 
-def eda_4(sentence, alpha_sr=0.3, alpha_ri=0.2, alpha_rs=0.1, p_rd=0.15, num_aug=9, tfidf = None):
+def eda_4(sentence, tfidf, alpha_sr=0.3, alpha_ri=0.2, alpha_rs=0.1, p_rd=0.15, num_aug=9):
 
     sentence = get_only_chars(sentence)
     words = sentence.split(' ')
@@ -201,22 +203,22 @@ def eda_4(sentence, alpha_sr=0.3, alpha_ri=0.2, alpha_rs=0.1, p_rd=0.15, num_aug
 
     #sr
     for _ in range(num_new_per_technique):
-        a_words = synonym_replacement(words, n_sr)
+        a_words = synonym_replacement(words, n_sr, tfidf)
         augmented_sentences.append(' '.join(a_words))
 
     #ri
     for _ in range(num_new_per_technique):
-        a_words = random_addition(words, n_ri)
+        a_words = random_addition(words, n_ri, tfidf)
         augmented_sentences.append(' '.join(a_words))
 
     #rs
     for _ in range(num_new_per_technique):
-        a_words = random_swap(words, n_rs)
+        a_words = random_swap(words, n_rs, tfidf)
         augmented_sentences.append(' '.join(a_words))
 
     #rd
     for _ in range(num_new_per_technique):
-        a_words = random_deletion(words, p_rd)
+        a_words = random_deletion(words,tfidf, p_rd)
         augmented_sentences.append(' '.join(a_words))
 
     augmented_sentences = [get_only_chars(sentence) for sentence in augmented_sentences]

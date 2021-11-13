@@ -27,7 +27,7 @@ from os.path import isfile, join, isdir
 import pickle
 
 #import data augmentation methods
-from nlp_aug import *
+from nlp_aug_w import *
 
 ###################################################
 ######### loading folders and txt files ###########
@@ -182,7 +182,7 @@ def get_tfidf(lines):
         parts = line[:-1].split('\t')
         label = parts[0]
         sentence = parts[1]
-        sentence = lower(sentence)
+        sentence = sentence.lower()
         
         the_split = sentence.split(" ")
         sentence_len = len(the_split)
@@ -197,7 +197,7 @@ def get_tfidf(lines):
     
     for i in range(len(tfidf)):
         for word in tfidf[i]:
-            tfidf[i][key] *= math.log(n/idf[word])
+            tfidf[i][word] *= math.log(n/idf[word])
     
     return tfidf
 
