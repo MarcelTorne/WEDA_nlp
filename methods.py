@@ -168,18 +168,53 @@ def gen_tsne_aug(train_orig, output_file):
     writer.close()
     print("finished eda for tsne for", train_orig, "to", output_file)
 
-
+# tfidf for word for each sentence
+def get_tfidf(lines):
+    """ 
+    Returns:
+        tfidf_matrix: List of dictionaries. Each dictionary corresponds to one sentence. Dictionary's elements are words (keys) and tfidf (values).
+    """
+    tfidf = []
+    idf = defaultdict(int)
+    n = len(lines)
+    for i, line in enumerate(lines):
+        sentence_tf = defaultdict(int)
+        parts = line[:-1].split('\t')
+        label = parts[0]
+        sentence = parts[1]
+        sentence = lower(sentence)
+        
+        the_split = sentence.split(" ")
+        sentence_len = len(the_split)
+        for word in the_split:
+            # Not sure if lower is okay.
+            sentence_tf[word] += 1/sentence_len
+        
+        for word in set(the_split):
+            idf[word] += 1
+        
+        tfidf.append(sentence_tf)
+    
+    for i in range(len(tfidf)):
+        for word in tfidf[i]:
+            tfidf[i][key] *= math.log(n/idf[word])
+    
+    return tfidf
 
 
 #generate more data with standard augmentation
 def gen_standard_aug(train_orig, output_file, num_aug=9):
+    
     writer = open(output_file, 'w')
     lines = open(train_orig, 'r').readlines()
+    
+    tfidf = get_tfidf(lines)
+
     for i, line in enumerate(lines):
         parts = line[:-1].split('\t')
         label = parts[0]
         sentence = parts[1]
-        aug_sentences = eda_4(sentence, num_aug=num_aug)
+        aug_sentences = eda_4(sentence, tfidf[i], num_aug=num_aug)
         for aug_sentence in aug_sentences:
             writer.write(label + "\t" + aug_sentence + '\n')
     writer.close()
