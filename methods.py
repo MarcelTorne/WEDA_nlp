@@ -224,11 +224,14 @@ def gen_standard_aug(train_orig, output_file, num_aug=9):
 def gen_sr_aug(train_orig, output_file, alpha_sr, n_aug):
     writer = open(output_file, 'w')
     lines = open(train_orig, 'r').readlines()
+    
+    tfidf = get_tfidf(lines)
+    
     for i, line in enumerate(lines):
         parts = line[:-1].split('\t')
         label = parts[0]
         sentence = parts[1]
-        aug_sentences = SR(sentence, alpha_sr=alpha_sr, n_aug=n_aug)
+        aug_sentences = SR(sentence, tfidf[i], alpha_sr=alpha_sr, n_aug=n_aug)
         for aug_sentence in aug_sentences:
             writer.write(label + "\t" + aug_sentence + '\n')
     writer.close()
@@ -238,11 +241,14 @@ def gen_sr_aug(train_orig, output_file, alpha_sr, n_aug):
 def gen_ri_aug(train_orig, output_file, alpha_ri, n_aug):
     writer = open(output_file, 'w')
     lines = open(train_orig, 'r').readlines()
+    
+    tfidf = get_tfidf(lines)
+    
     for i, line in enumerate(lines):
         parts = line[:-1].split('\t')
         label = parts[0]
         sentence = parts[1]
-        aug_sentences = RI(sentence, alpha_ri=alpha_ri, n_aug=n_aug)
+        aug_sentences = RI(sentence, tfidf[i], alpha_ri=alpha_ri, n_aug=n_aug)
         for aug_sentence in aug_sentences:
             writer.write(label + "\t" + aug_sentence + '\n')
     writer.close()
@@ -252,11 +258,14 @@ def gen_ri_aug(train_orig, output_file, alpha_ri, n_aug):
 def gen_rs_aug(train_orig, output_file, alpha_rs, n_aug):
     writer = open(output_file, 'w')
     lines = open(train_orig, 'r').readlines()
+    
+    tfidf = get_tfidf(lines)
+    
     for i, line in enumerate(lines):
         parts = line[:-1].split('\t')
         label = parts[0]
         sentence = parts[1]
-        aug_sentences = RS(sentence, alpha_rs=alpha_rs, n_aug=n_aug)
+        aug_sentences = RS(sentence, tfidf[i], alpha_rs=alpha_rs, n_aug=n_aug)
         for aug_sentence in aug_sentences:
             writer.write(label + "\t" + aug_sentence + '\n')
     writer.close()
@@ -266,11 +275,14 @@ def gen_rs_aug(train_orig, output_file, alpha_rs, n_aug):
 def gen_rd_aug(train_orig, output_file, alpha_rd, n_aug):
     writer = open(output_file, 'w')
     lines = open(train_orig, 'r').readlines()
+    
+    tfidf = get_tfidf(lines)
+    
     for i, line in enumerate(lines):
         parts = line[:-1].split('\t')
         label = parts[0]
         sentence = parts[1]
-        aug_sentences = RD(sentence, alpha_rd=alpha_rd, n_aug=n_aug)
+        aug_sentences = RD(sentence, tfidf[i], alpha_rd=alpha_rd, n_aug=n_aug)
         for aug_sentence in aug_sentences:
             writer.write(label + "\t" + aug_sentence + '\n')
     writer.close()

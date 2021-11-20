@@ -236,7 +236,7 @@ def eda_4(sentence, tfidf, alpha_sr=0.3, alpha_ri=0.2, alpha_rs=0.1, p_rd=0.15, 
 
     return augmented_sentences
 
-def SR(sentence, alpha_sr, n_aug=9):
+def SR(sentence, tfidf, alpha_sr, n_aug=9):
 
     sentence = get_only_chars(sentence)
     words = sentence.split(' ')
@@ -246,7 +246,7 @@ def SR(sentence, alpha_sr, n_aug=9):
     n_sr = max(1, int(alpha_sr*num_words))
 
     for _ in range(n_aug):
-        a_words = synonym_replacement(words, n_sr)
+        a_words = synonym_replacement(words, n_sr, tfidf)
         augmented_sentences.append(' '.join(a_words))
 
     augmented_sentences = [get_only_chars(sentence) for sentence in augmented_sentences]
@@ -256,7 +256,7 @@ def SR(sentence, alpha_sr, n_aug=9):
 
     return augmented_sentences
 
-def RI(sentence, alpha_ri, n_aug=9):
+def RI(sentence, tfidf, alpha_ri, n_aug=9):
 
     sentence = get_only_chars(sentence)
     words = sentence.split(' ')
@@ -266,7 +266,7 @@ def RI(sentence, alpha_ri, n_aug=9):
     n_ri = max(1, int(alpha_ri*num_words))
 
     for _ in range(n_aug):
-        a_words = random_addition(words, n_ri)
+        a_words = random_addition(words, n_ri, tfidf)
         augmented_sentences.append(' '.join(a_words))
 
     augmented_sentences = [get_only_chars(sentence) for sentence in augmented_sentences]
@@ -276,7 +276,7 @@ def RI(sentence, alpha_ri, n_aug=9):
 
     return augmented_sentences
 
-def RS(sentence, alpha_rs, n_aug=9):
+def RS(sentence, tfidf, alpha_rs, n_aug=9):
 
     sentence = get_only_chars(sentence)
     words = sentence.split(' ')
@@ -286,7 +286,7 @@ def RS(sentence, alpha_rs, n_aug=9):
     n_rs = max(1, int(alpha_rs*num_words))
 
     for _ in range(n_aug):
-        a_words = random_swap(words, n_rs)
+        a_words = random_swap(words, n_rs, tfidf)
         augmented_sentences.append(' '.join(a_words))
 
     augmented_sentences = [get_only_chars(sentence) for sentence in augmented_sentences]
@@ -296,7 +296,7 @@ def RS(sentence, alpha_rs, n_aug=9):
 
     return augmented_sentences
 
-def RD(sentence, alpha_rd, n_aug=9):
+def RD(sentence, tfidf, alpha_rd, n_aug=9):
 
     sentence = get_only_chars(sentence)
     words = sentence.split(' ')
@@ -306,7 +306,7 @@ def RD(sentence, alpha_rd, n_aug=9):
     augmented_sentences = []
 
     for _ in range(n_aug):
-        a_words = random_deletion(words, alpha_rd)
+        a_words = random_deletion(words, tfidf, alpha_rd)
         augmented_sentences.append(' '.join(a_words))
 
     augmented_sentences = [get_only_chars(sentence) for sentence in augmented_sentences]
