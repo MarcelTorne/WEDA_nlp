@@ -119,7 +119,7 @@ def random_deletion(words, tfidf, p = 1):
         threshold = tfidf[word]/max_tfidf
 		
         r = random.uniform(0, 1)
-        if r > 1-threshold*p:
+        if r > (1-threshold)*p:
             new_words.append(word)
 
     #if you end up deleting all words, just return a random word
