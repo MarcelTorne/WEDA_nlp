@@ -1,5 +1,6 @@
 from methods import *
 import os, shutil
+import torch
 
 device = torch.device('cuda') 
 
