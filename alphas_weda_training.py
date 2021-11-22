@@ -3,7 +3,7 @@ import os, shutil
 import tensorflow as tf
 
 #load hyperparameters
-sizes = ['1_tiny', '2_small', '3_standard', '4_full']
+sizes = ['2_small', '3_standard', '4_full']
 size_folders = ['size_data_f1/' + size for size in sizes]
 
 #datasets
