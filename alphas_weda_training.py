@@ -1,8 +1,6 @@
 from methods import *
 import os, shutil
-import torch
-
-device = torch.device('cuda') 
+import tensorflow as tf
 
 #load hyperparameters
 sizes = ['1_tiny', '2_small', '3_standard', '4_full']
@@ -37,15 +35,12 @@ word2vec_len = 300
 def run_cnn(train_file, test_file, num_classes, percent_dataset):
 
     #initialize model
-    model = build_cnn(input_size, word2vec_len, num_classes).to(device)
+    model = build_cnn(input_size, word2vec_len, num_classes)
 
     #load data
     train_x, train_y = get_x_y(train_file, num_classes, word2vec_len, input_size, word2vec, percent_dataset)
     test_x, test_y = get_x_y(test_file, num_classes, word2vec_len, input_size, word2vec, 1)
-    train_x = train_x.to(device)
-    train_y = train_y.to(device)
-    test_x = test_x.to(device)
-    test_y = test_y.to(device)
+  
     #implement early stopping
     callbacks = [EarlyStopping(monitor='val_loss', patience=3)]
 
