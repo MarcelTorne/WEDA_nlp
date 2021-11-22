@@ -44,7 +44,7 @@ def run_cnn(train_file, test_file, num_classes, percent_dataset):
   
     #implement early stopping
     callbacks = [EarlyStopping(monitor='val_loss', patience=3)]
-    """
+    
     #train model
     model.fit(	train_x, 
                 train_y, 
@@ -56,7 +56,7 @@ def run_cnn(train_file, test_file, num_classes, percent_dataset):
                 verbose=1)
     #model.save('checkpoints/lol')
     #model = load_model('checkpoints/lol')
-
+    """
     #evaluate model
     y_pred = model.predict(test_x)
     test_y_cat = one_hot_to_categorical(test_y)
