@@ -112,8 +112,8 @@ def run_rnn(train_file, test_file, num_classes, percent_dataset):
 
 #for each method
 
-writer_cnn = open('outputs_f1/cnn_' + a_method + '_' + get_now_str() + '.txt', 'w')
-writer_rnn = open('outputs_f1/rnn_' + a_method + '_' + get_now_str() + '.txt', 'w')
+writer_cnn = open('outputs_f1/cnn_' + "weda_general" + '_' + get_now_str() + '.txt', 'w')
+writer_rnn = open('outputs_f1/rnn_' + "weda_general" + '_' + get_now_str() + '.txt', 'w')
 
 
 #for each size dataset
@@ -146,7 +146,7 @@ for size_folder in size_folders:
             train_path = dataset_folder + '/train_weda_' + str(alpha) + '.txt'
             test_path = 'size_data_f1/test/' + dataset + '/test.txt'
             acc = run_cnn(train_path, test_path, num_classes, percent_dataset=1)
-            print("cnn aug ", acc, alpha, a_method, dataset_folder)
+            print("cnn aug ", acc, alpha, dataset_folder)
 
             performances_cnn[alpha].append(acc)
             """
@@ -177,8 +177,8 @@ writer_rnn.close()
 
 
 
-writer_cnn = open('outputs_f1/cnn_no_aug_' + get_now_str() + '.txt', 'w')
-writer_rnn = open('outputs_f1/rnn_no_aug_' + get_now_str() + '.txt', 'w')
+writer_cnn = open('outputs_f1/cnn_no_aug_general' + get_now_str() + '.txt', 'w')
+writer_rnn = open('outputs_f1/rnn_no_aug_general' + get_now_str() + '.txt', 'w')
 
 
 #for each size dataset
