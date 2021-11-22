@@ -51,7 +51,7 @@ def run_cnn(train_file, test_file, num_classes, percent_dataset):
                 epochs=20, 
                 callbacks=callbacks,
                 validation_split=0.1, 
-                batch_size=1024, 
+                batch_size=10, 
                 shuffle=True, 
                 verbose=1)
     #model.save('checkpoints/lol')
