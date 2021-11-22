@@ -129,6 +129,7 @@ def get_x_y(train_txt, num_classes, word2vec_len, input_size, word2vec, percent_
         x_matrix = np.zeros((num_lines, input_size, word2vec_len))
     except:
         print("Error!", num_lines, input_size, word2vec_len)
+        
     y_matrix = np.zeros((num_lines, num_classes))
 
     #insert values

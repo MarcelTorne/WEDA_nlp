@@ -33,12 +33,13 @@ huge_word2vec = 'word2vec/glove.840B.300d.txt'
 word2vec_len = 300
 
 def run_cnn(train_file, test_file, num_classes, percent_dataset):
-
+    
     #initialize model
-    model = build_cnn(input_size, word2vec_len, num_classes)
+    #model = build_cnn(input_size, word2vec_len, num_classes)
 
     #load data
     train_x, train_y = get_x_y(train_file, num_classes, word2vec_len, input_size, word2vec, percent_dataset)
+    """
     test_x, test_y = get_x_y(test_file, num_classes, word2vec_len, input_size, word2vec, 1)
   
     #implement early stopping
@@ -68,7 +69,10 @@ def run_cnn(train_file, test_file, num_classes, percent_dataset):
 
     #return the accuracy
     #print("data with shape:", train_x.shape, train_y.shape, 'train=', train_file, 'test=', test_file, 'with fraction', percent_dataset, 'had acc', acc)
+    
     return acc
+    """
+    return 0
 
 def run_rnn(train_file, test_file, num_classes, percent_dataset):
 
