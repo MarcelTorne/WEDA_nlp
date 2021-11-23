@@ -28,6 +28,7 @@ import pickle
 
 #import data augmentation methods
 from nlp_aug_w import *
+from nlp_aug_eda import *
 
 ###################################################
 ######### loading folders and txt files ###########
@@ -153,7 +154,22 @@ def get_x_y(train_txt, num_classes, word2vec_len, input_size, word2vec, percent_
 ############### data augmentation #################
 ###################################################
 
-def gen_tsne_aug(train_orig, output_file):
+def gen_tsne_aug_weda(train_orig, output_file):
+
+    writer = open(output_file, 'w')
+    lines = open(train_orig, 'r').readlines()
+    for i, line in enumerate(lines):
+        parts = line[:-1].split('\t')
+        label = parts[0]
+        sentence = parts[1]
+        writer.write(line)
+        for alpha in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]:
+            aug_sentence = weda_4(sentence, alpha_sr=alpha, alpha_ri=alpha, alpha_rs=alpha, p_rd=alpha, num_aug=2)[0]
+            writer.write(label + "\t" + aug_sentence + '\n')
+    writer.close()
+    print("finished weda for tsne for", train_orig, "to", output_file)
+
+def gen_tsne_aug_eda(train_orig, output_file):
 
     writer = open(output_file, 'w')
     lines = open(train_orig, 'r').readlines()
@@ -167,7 +183,7 @@ def gen_tsne_aug(train_orig, output_file):
             writer.write(label + "\t" + aug_sentence + '\n')
     writer.close()
     print("finished eda for tsne for", train_orig, "to", output_file)
-
+    
 # tfidf for word for each sentence
 def get_tfidf(lines):
     """ 
@@ -203,7 +219,7 @@ def get_tfidf(lines):
 
 
 #generate more data with standard augmentation
-def gen_standard_aug(train_orig, output_file, num_aug=9):
+def gen_standard_aug_weda(train_orig, output_file, num_aug=9):
     
     writer = open(output_file, 'w')
     lines = open(train_orig, 'r').readlines()
@@ -214,14 +230,30 @@ def gen_standard_aug(train_orig, output_file, num_aug=9):
         parts = line[:-1].split('\t')
         label = parts[0]
         sentence = parts[1]
-        aug_sentences = eda_4(sentence, tfidf[i], num_aug=num_aug)
+        aug_sentences = weda_4(sentence, tfidf[i], num_aug=num_aug)
+        for aug_sentence in aug_sentences:
+            writer.write(label + "\t" + aug_sentence + '\n')
+    writer.close()
+    print("finished weda for", train_orig, "to", output_file)
+    
+#generate more data with standard augmentation
+def gen_standard_aug_eda(train_orig, output_file, num_aug=9):
+    
+    writer = open(output_file, 'w')
+    lines = open(train_orig, 'r').readlines()
+
+    for i, line in enumerate(lines):
+        parts = line[:-1].split('\t')
+        label = parts[0]
+        sentence = parts[1]
+        aug_sentences = eda_4(sentence, num_aug=num_aug)
         for aug_sentence in aug_sentences:
             writer.write(label + "\t" + aug_sentence + '\n')
     writer.close()
     print("finished eda for", train_orig, "to", output_file)
 
 #generate more data with only synonym replacement (SR)
-def gen_sr_aug(train_orig, output_file, alpha_sr, n_aug):
+def gen_sr_aug_weda(train_orig, output_file, alpha_sr, n_aug):
     writer = open(output_file, 'w')
     lines = open(train_orig, 'r').readlines()
     
@@ -235,10 +267,25 @@ def gen_sr_aug(train_orig, output_file, alpha_sr, n_aug):
         for aug_sentence in aug_sentences:
             writer.write(label + "\t" + aug_sentence + '\n')
     writer.close()
-    print("finished SR for", train_orig, "to", output_file, "with alpha", alpha_sr)
+    print("WEDA: finished SR for", train_orig, "to", output_file, "with alpha", alpha_sr)
+    
+#generate more data with only synonym replacement (SR)
+def gen_sr_aug_eda(train_orig, output_file, alpha_sr, n_aug):
+    writer = open(output_file, 'w')
+    lines = open(train_orig, 'r').readlines()
+    
+    for i, line in enumerate(lines):
+        parts = line[:-1].split('\t')
+        label = parts[0]
+        sentence = parts[1]
+        aug_sentences = SR_eda(sentence, alpha_sr=alpha_sr, n_aug=n_aug)
+        for aug_sentence in aug_sentences:
+            writer.write(label + "\t" + aug_sentence + '\n')
+    writer.close()
+    print("EDA: finished SR for", train_orig, "to", output_file, "with alpha", alpha_sr)
 
 #generate more data with only random insertion (RI)
-def gen_ri_aug(train_orig, output_file, alpha_ri, n_aug):
+def gen_ri_aug_weda(train_orig, output_file, alpha_ri, n_aug):
     writer = open(output_file, 'w')
     lines = open(train_orig, 'r').readlines()
     
@@ -252,10 +299,25 @@ def gen_ri_aug(train_orig, output_file, alpha_ri, n_aug):
         for aug_sentence in aug_sentences:
             writer.write(label + "\t" + aug_sentence + '\n')
     writer.close()
-    print("finished RI for", train_orig, "to", output_file, "with alpha", alpha_ri)
+    print("WEDA finished RI for", train_orig, "to", output_file, "with alpha", alpha_ri)
+    
+#generate more data with only random insertion (RI)
+def gen_ri_aug_eda(train_orig, output_file, alpha_ri, n_aug):
+    writer = open(output_file, 'w')
+    lines = open(train_orig, 'r').readlines()
+    
+    for i, line in enumerate(lines):
+        parts = line[:-1].split('\t')
+        label = parts[0]
+        sentence = parts[1]
+        aug_sentences = RI_eda(sentence, alpha_ri=alpha_ri, n_aug=n_aug)
+        for aug_sentence in aug_sentences:
+            writer.write(label + "\t" + aug_sentence + '\n')
+    writer.close()
+    print("EDA finished RI for", train_orig, "to", output_file, "with alpha", alpha_ri)
 
 #generate more data with only random swap (RS)
-def gen_rs_aug(train_orig, output_file, alpha_rs, n_aug):
+def gen_rs_aug_weda(train_orig, output_file, alpha_rs, n_aug):
     writer = open(output_file, 'w')
     lines = open(train_orig, 'r').readlines()
     
@@ -269,10 +331,25 @@ def gen_rs_aug(train_orig, output_file, alpha_rs, n_aug):
         for aug_sentence in aug_sentences:
             writer.write(label + "\t" + aug_sentence + '\n')
     writer.close()
-    print("finished RS for", train_orig, "to", output_file, "with alpha", alpha_rs)
+    print("WEDA finished RS for", train_orig, "to", output_file, "with alpha", alpha_rs)
+    
+#generate more data with only random swap (RS)
+def gen_rs_aug_eda(train_orig, output_file, alpha_rs, n_aug):
+    writer = open(output_file, 'w')
+    lines = open(train_orig, 'r').readlines()
+    
+    for i, line in enumerate(lines):
+        parts = line[:-1].split('\t')
+        label = parts[0]
+        sentence = parts[1]
+        aug_sentences = RS_eda(sentence, alpha_rs=alpha_rs, n_aug=n_aug)
+        for aug_sentence in aug_sentences:
+            writer.write(label + "\t" + aug_sentence + '\n')
+    writer.close()
+    print("EDA finished RS for", train_orig, "to", output_file, "with alpha", alpha_rs)
 
 #generate more data with only random deletion (RD)
-def gen_rd_aug(train_orig, output_file, alpha_rd, n_aug):
+def gen_rd_aug_weda(train_orig, output_file, alpha_rd, n_aug):
     writer = open(output_file, 'w')
     lines = open(train_orig, 'r').readlines()
     
@@ -286,7 +363,23 @@ def gen_rd_aug(train_orig, output_file, alpha_rd, n_aug):
         for aug_sentence in aug_sentences:
             writer.write(label + "\t" + aug_sentence + '\n')
     writer.close()
-    print("finished RD for", train_orig, "to", output_file, "with alpha", alpha_rd)
+    print("WEDA finished RD for", train_orig, "to", output_file, "with alpha", alpha_rd)
+    
+    
+#generate more data with only random deletion (RD)
+def gen_rd_aug_eda(train_orig, output_file, alpha_rd, n_aug):
+    writer = open(output_file, 'w')
+    lines = open(train_orig, 'r').readlines()
+    
+    for i, line in enumerate(lines):
+        parts = line[:-1].split('\t')
+        label = parts[0]
+        sentence = parts[1]
+        aug_sentences = RD_eda(sentence,alpha_rd=alpha_rd, n_aug=n_aug)
+        for aug_sentence in aug_sentences:
+            writer.write(label + "\t" + aug_sentence + '\n')
+    writer.close()
+    print("EDA finished RD for", train_orig, "to", output_file, "with alpha", alpha_rd)
 
 ###################################################
 ##################### model #######################
@@ -294,30 +387,29 @@ def gen_rd_aug(train_orig, output_file, alpha_rd, n_aug):
 
 #building the model in keras
 def build_model(sentence_length, word2vec_len, num_classes):
-    with tf.device('/device:GPU:0'):
-        model = None
-        model = Sequential()
-        model.add(Bidirectional(LSTM(64, return_sequences=True), input_shape=(sentence_length, word2vec_len)))
-        model.add(Dropout(0.5))
-        model.add(Bidirectional(LSTM(32, return_sequences=False)))
-        model.add(Dropout(0.5))
-        model.add(Dense(20, activation='relu'))
-        model.add(Dense(num_classes, kernel_initializer='normal', activation='softmax'))
-        model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-        #print(model.summary())
-        return model
+    model = None
+    model = Sequential()
+    model.add(Bidirectional(LSTM(64, return_sequences=True), input_shape=(sentence_length, word2vec_len)))
+    model.add(Dropout(0.5))
+    model.add(Bidirectional(LSTM(32, return_sequences=False)))
+    model.add(Dropout(0.5))
+    model.add(Dense(20, activation='relu'))
+    model.add(Dense(num_classes, kernel_initializer='normal', activation='softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    #print(model.summary())
+    return model
 
 #building the cnn in keras
 def build_cnn(sentence_length, word2vec_len, num_classes):
-    with tf.device('/device:GPU:0'):
-        model = None
-        model = Sequential()
-        model.add(layers.Conv1D(128, 5, activation='relu', input_shape=(sentence_length, word2vec_len)))
-        model.add(layers.GlobalMaxPooling1D())
-        model.add(Dense(20, activation='relu'))
-        model.add(Dense(num_classes, kernel_initializer='normal', activation='softmax'))
-        model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-        return model
+    #with tf.device('/device:GPU:0'):
+    model = None
+    model = Sequential()
+    model.add(layers.Conv1D(128, 5, activation='relu', input_shape=(sentence_length, word2vec_len)))
+    model.add(layers.GlobalMaxPooling1D())
+    model.add(Dense(20, activation='relu'))
+    model.add(Dense(num_classes, kernel_initializer='normal', activation='softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    return model
 
 #one hot to categorical
 def one_hot_to_categorical(y):

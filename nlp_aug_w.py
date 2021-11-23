@@ -188,7 +188,7 @@ def add_word(new_words, tfidf):
 # main data augmentation function
 ########################################################################
 
-def eda_4(sentence, tfidf, alpha_sr=0.3, alpha_ri=0.2, alpha_rs=0.1, p_rd=0.15, num_aug=9):
+def weda_4(sentence, tfidf, alpha_sr=0.3, alpha_ri=0.2, alpha_rs=0.1, p_rd=0.15, num_aug=9):
 
     sentence = get_only_chars(sentence)
     words = sentence.split(' ')
@@ -317,44 +317,4 @@ def RD(sentence, tfidf, alpha_rd, n_aug=9):
     return augmented_sentences
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-########################################################################
-# Testing
-########################################################################
-
-if __name__ == '__main__':
-
-	line = 'Hi. My name is Jason. I’m a third-year computer science major at Dartmouth College, interested in deep learning and computer vision. My advisor is Saeed Hassanpour. I’m currently working on deep learning for lung cancer classification.'
-
-
-
-########################################################################
-# Sliding window
-# Slide a window of size w over the sentence with stride s
-# Returns a list of lists of words
-########################################################################
-
-# def sliding_window_sentences(words, w, s):
-# 	windows = []
-# 	for i in range(0, len(words)-w+1, s):
-# 		window = words[i:i+w]
-# 		windows.append(window)
-# 	return windows
 

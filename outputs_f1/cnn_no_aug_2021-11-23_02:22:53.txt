@@ -1,0 +1,8 @@
+size_data_f1/1_tiny
+[0.6815323041738136]
+size_data_f1/2_small
+[0.7821612349914236]
+size_data_f1/3_standard
+[0.8279016580903373]
+size_data_f1/4_full
+[0.8376214979988564]
