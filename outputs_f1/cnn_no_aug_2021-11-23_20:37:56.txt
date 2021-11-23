@@ -1,0 +1,8 @@
+alphas_sized_f1/1_tiny
+[0.6906803887935964]
+alphas_sized_f1/2_small
+[0.786735277301315]
+alphas_sized_f1/3_standard
+[0.8313321898227558]
+alphas_sized_f1/4_full
+[0.8284734133790738]

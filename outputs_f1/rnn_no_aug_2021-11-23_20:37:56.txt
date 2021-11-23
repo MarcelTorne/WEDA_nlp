@@ -1,0 +1,8 @@
+alphas_sized_f1/1_tiny
+[]
+alphas_sized_f1/2_small
+[]
+alphas_sized_f1/3_standard
+[]
+alphas_sized_f1/4_full
+[]
