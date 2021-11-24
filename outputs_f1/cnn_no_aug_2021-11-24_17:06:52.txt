@@ -1,0 +1,8 @@
+alphas_sized_decomposed_f1/1_tiny
+[0.7329902801600915]
+alphas_sized_decomposed_f1/2_small
+[0.7913093196112064]
+alphas_sized_decomposed_f1/3_standard
+[0.8290451686678102]
+alphas_sized_decomposed_f1/4_full
+[0.8353344768439108]
