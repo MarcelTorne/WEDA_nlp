@@ -1,7 +1,0 @@
-percent_data/1
-percent_data/5
-percent_data/10
-percent_data/20
-percent_data/30
-percent_data/40
-percent_data/50

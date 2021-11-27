@@ -271,10 +271,9 @@ def get_tfidf_2(lines):
         sentence = sentence.lower()
         
         the_split = sentence.split(" ")
-        sentence_len = len(the_split)
         for word in the_split:
             # Not sure if lower is okay.
-            sentence_tf[word] += 1/sentence_len
+            sentence_tf[word] += 1
         
         for word in set(the_split):
             idf[word] += 1
@@ -285,7 +284,7 @@ def get_tfidf_2(lines):
     for i in range(len(tf)):
         dictionary = {}
         for word in tf[i]:
-            dictionary[word] = (1+np.log(tf[i][word]))*np.log(N/idf[word])
+            dictionary[word] = (1+np.log(tf[i][word]))*np.log(n/idf[word])
         tfidf.append(dictionary)
         
     return tfidf
