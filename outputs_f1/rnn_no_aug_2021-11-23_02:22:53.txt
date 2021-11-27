@@ -1,8 +1,0 @@
-size_data_f1/1_tiny
-[]
-size_data_f1/2_small
-[]
-size_data_f1/3_standard
-[]
-size_data_f1/4_full
-[]

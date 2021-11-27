@@ -1,3 +1,0 @@
-alphas_sized_decomposed_f1/1_tiny
-[0.7421383647798742]
-alphas_sized_decomposed_f1/2_small

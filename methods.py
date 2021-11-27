@@ -289,6 +289,77 @@ def get_tfidf_2(lines):
         
     return tfidf
 
+def get_tfidf_3(lines):
+    """ 
+    Returns:
+        tfidf_matrix: List of dictionaries. Each dictionary corresponds to one sentence. Dictionary's elements are words (keys) and tfidf (values).
+    """
+    tf = []
+    idf = defaultdict(int)
+    n = len(lines)
+    for i, line in enumerate(lines):
+        sentence_tf = defaultdict(int)
+        parts = line[:-1].split('\t')
+        label = parts[0]
+        sentence = parts[1]
+        sentence = sentence.lower()
+        
+        the_split = sentence.split(" ")
+        sentence_len = len(the_split)
+        for word in the_split:
+            # Not sure if lower is okay.
+            sentence_tf[word] += 1/sentence_len
+        
+        for word in set(the_split):
+            idf[word] += 1
+        
+        tf.append(sentence_tf)
+    
+    tfidf = []
+    for i in range(len(tf)):
+        dictionary = {}
+        max_tf = max(tf[i].values)
+        for word in tf[i]:
+            dictionary[word] = (0.5+0.5*tf[i][word]/max_tf)*np.log(N/idf[word])
+        tfidf.append(dictionary)
+        
+    return tfidf
+
+def get_tfidf_4(lines):
+    """ 
+    Returns:
+        tfidf_matrix: List of dictionaries. Each dictionary corresponds to one sentence. Dictionary's elements are words (keys) and tfidf (values).
+    """
+    tf = []
+    idf = defaultdict(int)
+    n = len(lines)
+    for i, line in enumerate(lines):
+        sentence_tf = defaultdict(int)
+        parts = line[:-1].split('\t')
+        label = parts[0]
+        sentence = parts[1]
+        sentence = sentence.lower()
+        
+        the_split = sentence.split(" ")
+        sentence_len = len(the_split)
+        for word in the_split:
+            # Not sure if lower is okay.
+            sentence_tf[word] += 1/sentence_len
+        
+        for word in set(the_split):
+            idf[word] += 1
+        
+        tf.append(sentence_tf)
+    
+    tfidf = []
+    for i in range(len(tf)):
+        dictionary = {}
+        for word in tf[i]:
+            dictionary[word] = np.log(1+N/idf[word])
+        tfidf.append(dictionary)
+        
+    return tfidf
+
 
 
 #generate more data with standard augmentation
@@ -297,7 +368,7 @@ def gen_standard_aug_weda(train_orig, output_file, num_aug=9, tfidf_func = 0):
     writer = open(output_file, 'w')
     lines = open(train_orig, 'r').readlines()
     
-    tfidf_funcs = [get_tfidf, get_tfidf_1, get_tfidf_2]
+    tfidf_funcs = [get_tfidf, get_tfidf_1, get_tfidf_2, get_tfidf_3, get_tfidf_4]
     tfidf = tfidf_funcs[tfidf_func](lines)
 
     for i, line in enumerate(lines):

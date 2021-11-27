@@ -1,1 +1,0 @@
-alphas_sized_decomposed/1_tiny
