@@ -220,7 +220,7 @@ def get_tfidf(lines):
         
     return tfidf
 
-def get_tfidf_2(lines):
+def get_tfidf_1(lines):
     """ 
     Returns:
         tfidf_matrix: List of dictionaries. Each dictionary corresponds to one sentence. Dictionary's elements are words (keys) and tfidf (values).
@@ -255,7 +255,7 @@ def get_tfidf_2(lines):
     
     return tfidf
 
-def get_tfidf_3(lines):
+def get_tfidf_2(lines):
     """ 
     Returns:
         tfidf_matrix: List of dictionaries. Each dictionary corresponds to one sentence. Dictionary's elements are words (keys) and tfidf (values).
@@ -293,12 +293,13 @@ def get_tfidf_3(lines):
 
 
 #generate more data with standard augmentation
-def gen_standard_aug_weda(train_orig, output_file, num_aug=9):
+def gen_standard_aug_weda(train_orig, output_file, num_aug=9, tfidf_func = 0):
     
     writer = open(output_file, 'w')
     lines = open(train_orig, 'r').readlines()
     
-    tfidf = get_tfidf(lines)
+    tfidf_funcs = [get_tfidf, get_tfidf_1, get_tfidf_2]
+    tfidf = tfidf_funcs[tfidf_func](lines)
 
     for i, line in enumerate(lines):
         parts = line[:-1].split('\t')

@@ -1,0 +1,25 @@
+percent_data/1
+percent_data/5
+percent_data/10
+percent_data/20
+percent_data/30
+percent_data/40
+percent_data/50
+percent_data/60
+percent_data/70
+percent_data/80
+percent_data/90
+percent_data/100
+{'percent_data/1': [0.534019439679817], 'percent_data/5': [0.7587192681532304], 'percent_data/10': [0.7993138936535163], 'percent_data/20': [0.8164665523156089], 'percent_data/30': [0.8210405946255003], 'percent_data/40': [0.8296169239565466], 'percent_data/50': [0.8227558604917096], 'percent_data/60': [0.841052029731275], 'percent_data/70': [0.8273299028016009], 'percent_data/80': [0.8324757004002287], 'percent_data/90': [0.8376214979988564], 'percent_data/100': [0.851915380217267]}
+percent_data/1 : 0.534019439679817
+percent_data/5 : 0.7587192681532304
+percent_data/10 : 0.7993138936535163
+percent_data/20 : 0.8164665523156089
+percent_data/30 : 0.8210405946255003
+percent_data/40 : 0.8296169239565466
+percent_data/50 : 0.8227558604917096
+percent_data/60 : 0.841052029731275
+percent_data/70 : 0.8273299028016009
+percent_data/80 : 0.8324757004002287
+percent_data/90 : 0.8376214979988564
+percent_data/100 : 0.851915380217267
