@@ -433,7 +433,7 @@ def gen_rd_aug_weda(train_orig, output_file, alpha_rd, n_aug):
         parts = line[:-1].split('\t')
         label = parts[0]
         sentence = parts[1]
-        aug_sentences = RD(sentence, tfidf[i], alpha_rd=alpha_rd, n_aug=n_aug)
+        aug_sentences = RD(sentence, tfidf[i], alpha_rd=alpha_rd*3, n_aug=n_aug)
         for aug_sentence in aug_sentences:
             writer.write(label + "\t" + aug_sentence + '\n')
     writer.close()

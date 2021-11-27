@@ -188,7 +188,7 @@ def add_word(new_words, tfidf):
 # main data augmentation function
 ########################################################################
 
-def weda_4(sentence, tfidf, alpha_sr=0.3, alpha_ri=0.2, alpha_rs=0.1, p_rd=0.4, num_aug=9):
+def weda_4(sentence, tfidf, alpha_sr=0.3, alpha_ri=0.2, alpha_rs=0.1, p_rd=0.3, num_aug=9):
 
     sentence = get_only_chars(sentence)
     words = sentence.split(' ')
