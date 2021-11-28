@@ -318,9 +318,9 @@ def get_tfidf_3(lines):
     tfidf = []
     for i in range(len(tf)):
         dictionary = {}
-        max_tf = max(tf[i].values)
+        max_tf = max(tf[i].values())
         for word in tf[i]:
-            dictionary[word] = (0.5+0.5*tf[i][word]/max_tf)*np.log(N/idf[word])
+            dictionary[word] = (0.5+0.5*tf[i][word]/max_tf)*np.log(n/idf[word])
         tfidf.append(dictionary)
         
     return tfidf
@@ -355,7 +355,7 @@ def get_tfidf_4(lines):
     for i in range(len(tf)):
         dictionary = {}
         for word in tf[i]:
-            dictionary[word] = np.log(1+N/idf[word])
+            dictionary[word] = np.log(1+n/idf[word])
         tfidf.append(dictionary)
         
     return tfidf
