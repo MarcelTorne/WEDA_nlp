@@ -1,0 +1,9 @@
+naug_sized_f1/1_tiny
+naug_sized_f1/2_small
+naug_sized_f1/3_standard
+naug_sized_f1/4_full
+{'naug_sized_f1/1_tiny': [0.7747284162378502], 'naug_sized_f1/2_small': [0.8164665523156089], 'naug_sized_f1/3_standard': [0.8324757004002287], 'naug_sized_f1/4_full': [0.8284734133790738]}
+naug_sized_f1/1_tiny : 0.7747284162378502
+naug_sized_f1/2_small : 0.8164665523156089
+naug_sized_f1/3_standard : 0.8324757004002287
+naug_sized_f1/4_full : 0.8284734133790738
