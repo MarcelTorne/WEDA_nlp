@@ -1,2 +1,4 @@
 word2vec
 .DS_Store
+.ipynb_checkpoints
+__pycache__
